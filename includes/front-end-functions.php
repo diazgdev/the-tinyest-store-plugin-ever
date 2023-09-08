@@ -47,10 +47,20 @@ function mostrar_formulario_pedido($content) {
           <input type="submit" value="Realizar pedido">
       </form>';
 
+      $formulario .= '<div id="mapa" style="width:100%; height:400px;"></div>';
+
       $content .= $formulario;
   }
   return $content;
 }
 add_filter('the_content', 'mostrar_formulario_pedido');
+
+function google_map() {
+  if (is_page(get_option('realizar_pedido_page_id'))) {
+      wp_enqueue_script('google-maps-api', '', array(), null, true);
+      wp_enqueue_script('my-maps-script', plugin_dir_url(__FILE__) . 'maps.js', array('google-maps-api'), '1.0.0', true);
+  }
+}
+add_action('wp_enqueue_scripts', 'google_map');
 
 ?>
