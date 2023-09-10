@@ -10,6 +10,8 @@ License: GPL2
 Text Domain: the-tinyest-store-plugin-ever
 */
 
+require __DIR__ . '/vendor/autoload.php';
+
 include_once plugin_dir_path(__FILE__) . 'includes/setup.php';
 include_once plugin_dir_path(__FILE__) . 'includes/custom-post-types.php';
 include_once plugin_dir_path(__FILE__) . 'includes/front-end-functions.php';
@@ -22,6 +24,12 @@ register_activation_hook(plugin_basename(__FILE__), 'create_plugin_pages');
 
 // Registra el hook de desactivación
 register_deactivation_hook(plugin_basename(__FILE__), 'delete_plugin_pages');
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$api_key = getenv('API_KEY');
+
 
 // Eliminar CPTs (solo para pruebas). TO-DO: Eliminar antes de subir
 // function eliminar_cpt() {

@@ -32,13 +32,7 @@ function initMap() {
     marker.setPosition(place.geometry.location);
     map.setCenter(place.geometry.location);
 
-    var components = getPlaceComponents(place);
-    document.getElementById('hidden_calle').value = components.calle;
-    document.getElementById('hidden_colonia').value = components.colonia;
-    document.getElementById('hidden_ciudad_estado').value = components.ciudad_estado;
-    document.getElementById('hidden_codigo_postal').value = components.codigo_postal;
-
-    document.getElementById('address').value = place.formatted_address;
+    setPlaceComponents(place);
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
@@ -49,7 +43,8 @@ function initMap() {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[0]) {
                 console.log("Geocoder results:", results);
-                document.getElementById('address').value = results[0].formatted_address;
+
+                setPlaceComponents(results[0]);
 
                 var service = new google.maps.places.PlacesService(map);
                 service.getDetails({
@@ -71,11 +66,22 @@ function initMap() {
   });
 }
 
+function setPlaceComponents(place) {
+  var components = getPlaceComponents(place);
+  document.getElementById('hidden_calle').value = components.calle;
+  document.getElementById('hidden_colonia').value = components.colonia;
+  document.getElementById('hidden_ciudad').value = components.ciudad;
+  document.getElementById('hidden_estado').value = components.estado;
+  document.getElementById('hidden_codigo_postal').value = components.codigo_postal;
+  document.getElementById('address').value = place.formatted_address;
+}
+
 function getPlaceComponents(place) {
   let calleNombre = '';
   let calleNumero = '';
   let colonia = '';
-  let ciudad_estado = '';
+  let ciudad = '';
+  let estado = '';
   let codigo_postal = '';
 
   if (place.address_components) {
@@ -88,8 +94,10 @@ function getPlaceComponents(place) {
               calleNumero = '#' + addr.long_name;
           } else if (addr.types.includes('sublocality')) {
               colonia += addr.long_name + ' ';
-          } else if (addr.types.includes('locality') || addr.types.includes('administrative_area_level_1')) {
-              ciudad_estado += addr.long_name + ' ';
+          } else if (addr.types.includes('locality')) {
+              ciudad += addr.long_name + ' ';
+          } else if (addr.types.includes('administrative_area_level_1')) {
+              estado += addr.long_name + ' ';
           } else if (addr.types.includes('postal_code')) {
               codigo_postal = addr.long_name;
           }
@@ -100,8 +108,9 @@ function getPlaceComponents(place) {
 
   return {
       calle: calle.trim(),
-      ciudad_estado: ciudad_estado.trim(),
       colonia: colonia.trim(),
+      ciudad: ciudad.trim(),
+      estado: estado.trim(),
       codigo_postal: codigo_postal
   };
 }
@@ -110,7 +119,8 @@ document.querySelector("#continueButton").addEventListener('click', function() {
   var direccion = document.querySelector("#address").value;
   var calle = document.querySelector("#hidden_calle").value;
   var colonia = document.querySelector("#hidden_colonia").value;
-  var ciudad_estado = document.querySelector("#hidden_ciudad_estado").value;
+  var ciudad = document.querySelector("#hidden_ciudad").value;
+  var estado = document.querySelector("#hidden_estado").value;
   var codigo_postal = document.querySelector("#hidden_codigo_postal").value;
 
   fetch('/wp-admin/admin-ajax.php', {
@@ -120,7 +130,8 @@ document.querySelector("#continueButton").addEventListener('click', function() {
           'direccion': direccion,
           'calle': calle,
           'colonia': colonia,
-          'ciudad_estado': ciudad_estado,
+          'ciudad': ciudad,
+          'estado': estado,
           'codigo_postal': codigo_postal,
       }),
       headers: {
