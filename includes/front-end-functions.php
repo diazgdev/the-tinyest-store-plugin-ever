@@ -138,8 +138,6 @@ function mostrar_formulario_confirmacion($content) {
       $formulario .= '<form id="confirm_form" action="' . get_the_permalink() . '" method="post">
           <label for="nombre_cliente_id">Nombre:</label>
           <input type="text" id="nombre_cliente_id" name="nombre_cliente" value="' . esc_attr($nombre) . '" readonly><br>
-          <label for="address">Dirección completa:</label>
-          <input type="text" id="address" name="address" value="' . esc_attr($direccion) . '" readonly><br>
           <label for="calle">Calle:</label>
           <input type="text" id="calle" name="calle" value="' . esc_attr($calle) . '" readonly><br>
           <label for="colonia">Colonia:</label>

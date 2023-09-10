@@ -49,7 +49,7 @@ function initMap() {
                 var service = new google.maps.places.PlacesService(map);
                 service.getDetails({
                     placeId: results[0].place_id,
-                    fields: ['name', 'formatted_address', 'place_id', 'geometry', 'photos']
+                    fields: ['name', 'place_id', 'geometry', 'photos']
                 }, function(place, status) {
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
                         console.log("Place:", place);
@@ -73,7 +73,6 @@ function setPlaceComponents(place) {
   document.getElementById('hidden_ciudad').value = components.ciudad;
   document.getElementById('hidden_estado').value = components.estado;
   document.getElementById('hidden_codigo_postal').value = components.codigo_postal;
-  document.getElementById('address').value = place.formatted_address;
 }
 
 function getPlaceComponents(place) {
