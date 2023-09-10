@@ -9,16 +9,15 @@ function delete_plugin_pages() {
     );
 
     foreach ($pages_to_delete as $title) {
-        // Obtener la página por título
         $existing_page = get_page_by_title($title);
 
         if ($existing_page) {
-            // Si la página existe, eliminarla
-            wp_delete_post($existing_page->ID, true); // El segundo parámetro 'true' hace que se elimine de forma permanente (no se moverá a la papelera)
+            wp_delete_post($existing_page->ID, true); // true: Bypass the Trash
         }
     }
 
-    // Opcionalmente, puedes eliminar las opciones relacionadas con estas páginas
+    // TO-DO: Maybe delete them by ID instead of title?
+
     delete_option('realizar_pedido_page_id');
     delete_option('gracias_por_tu_compra_page_id');
     delete_option('confirm_page_id');

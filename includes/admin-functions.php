@@ -6,7 +6,7 @@ function crear_metaboxes_pedido() {
 }
 add_action('add_meta_boxes', 'crear_metaboxes_pedido');
 
-// Mostrar los datos del cliente en el metabox
+// Show the client details in the metabox
 function mostrar_metabox_detalles_cliente($post) {
   $nombre_cliente = get_post_meta($post->ID, 'nombre_cliente', true);
   $calle = get_post_meta($post->ID, 'calle', true);
@@ -27,9 +27,9 @@ function mostrar_metabox_detalles_cliente($post) {
   echo '<p><strong>Email:</strong> ' . esc_html($email_cliente) . '</p>';
 }
 
-// Función para mostrar el producto comprado en el metabox
+// Show the purchased product in the metabox
 function mostrar_metabox_producto_comprado($post) {
-  // Por el momento solo mostramos el título del producto.
+  // Only the product name for now
   $producto_id = get_post_meta($post->ID, 'producto_id', true);
   $nombre_producto = get_the_title($producto_id);
 
@@ -43,7 +43,7 @@ function mostrar_mensaje_agradecimiento($content) {
       $nombre = isset($_GET['nombre']) ? sanitize_text_field(urldecode($_GET['nombre'])) : '';
       $producto_id = isset($_GET['producto_id']) ? intval($_GET['producto_id']) : 0;
 
-      // Recuperar el nombre del producto usando su ID
+      // Get the product from its ID
       $nombre_producto = $producto_id ? get_the_title($producto_id) : '';
 
       $mensaje = "<div class='mensaje-agradecimiento'>";
