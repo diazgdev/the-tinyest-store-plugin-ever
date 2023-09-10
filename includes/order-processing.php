@@ -22,7 +22,6 @@ function procesar_pedido() {
 
       add_post_meta($pedido_id, 'producto_id', $producto_id);
 
-      // Guardar los datos del cliente como metadatos del post
       add_post_meta($pedido_id, 'nombre_cliente', $nombre_cliente);
       add_post_meta($pedido_id, 'calle', $calle);
       add_post_meta($pedido_id, 'colonia', $colonia);
@@ -32,7 +31,6 @@ function procesar_pedido() {
       add_post_meta($pedido_id, 'telefono', $telefono);
       add_post_meta($pedido_id, 'email_cliente', $email_cliente);
 
-      // Redirigir al cliente a la página de agradecimiento con información personalizada
       $pagina_agradecimiento_id = get_option('gracias_por_tu_compra_page_id');
 
       $url_agradecimiento = add_query_arg(array(
